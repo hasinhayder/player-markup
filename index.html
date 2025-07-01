@@ -11,8 +11,39 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
     <link rel="stylesheet" href="style.css">
+    <style>
+    /* Light/Dark mode toggle button styles */
+    #theme-toggle-btn {
+        position: fixed;
+        top: 1.25rem;
+        right: 1.25rem;
+        z-index: 60;
+        background: #fff;
+        border: 1px solid #e5e7eb;
+        border-radius: 0.5rem;
+        padding: 0.5rem 0.75rem;
+        box-shadow: 0 2px 8px 0 rgba(0,0,0,0.08);
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        font-weight: 500;
+        color: #374151;
+        cursor: pointer;
+        transition: background 0.2s, color 0.2s;
+    }
+    #theme-toggle-btn:hover {
+        background: #f1f5f9;
+    }
+    @media (max-width: 1024px) {
+        #theme-toggle-btn { display: none !important; }
+    }
+    </style>
 </head>
 <body class="bg-gray-100 text-gray-800">
+    <button id="theme-toggle-btn" aria-label="Toggle light/dark mode">
+        <span id="theme-toggle-icon" class="fa fa-moon"></span>
+        <span id="theme-toggle-label">Dark</span>
+    </button>
     <button id="hamburger-btn" class="fixed top-4 left-4 z-50 bg-white border border-gray-200 rounded-lg p-2 shadow-lg flex items-center justify-center md:hidden" aria-label="Open sidebar" style="display:none;">
         <svg class="w-7 h-7 text-gray-700" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
     </button>
@@ -182,5 +213,38 @@ console.log(greet('World'));
 
 
     <script src="app.js" defer></script>
+    <script>
+    // Light/Dark mode logic
+    (function() {
+        const root = document.documentElement;
+        const themeBtn = document.getElementById('theme-toggle-btn');
+        const themeIcon = document.getElementById('theme-toggle-icon');
+        const themeLabel = document.getElementById('theme-toggle-label');
+        // Check localStorage or system preference
+        function getPreferredTheme() {
+            const stored = localStorage.getItem('theme');
+            if (stored) return stored;
+            return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+        }
+        function setTheme(theme) {
+            if (theme === 'dark') {
+                root.classList.add('dark');
+                themeIcon.className = 'fa fa-sun';
+                themeLabel.textContent = 'Light';
+            } else {
+                root.classList.remove('dark');
+                themeIcon.className = 'fa fa-moon';
+                themeLabel.textContent = 'Dark';
+            }
+            localStorage.setItem('theme', theme);
+        }
+        // Initial
+        setTheme(getPreferredTheme());
+        themeBtn.addEventListener('click', function() {
+            const isDark = root.classList.contains('dark');
+            setTheme(isDark ? 'light' : 'dark');
+        });
+    })();
+    </script>
 </body>
 </html>
