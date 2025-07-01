@@ -168,9 +168,14 @@
                     <!-- No border radius, half in/half out -->
                 </div>
             </div>
-            <div class="p-4 border-b border-gray-200">
-                <h1 class="text-xl font-bold text-gray-900">Course Content</h1>
-                <p class="text-sm text-gray-500">Getting Started with Design</p>
+            <div class="p-4 border-b border-gray-200 flex items-center justify-between">
+                <div>
+                    <h1 class="text-xl font-bold text-gray-900">Course Content</h1>
+                    <p class="text-sm text-gray-500">Getting Started with Design</p>
+                </div>
+                <button id="sidebar-close-btn" class="md:hidden ml-2 p-2 rounded hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-400" aria-label="Close sidebar" style="display:none;">
+                    <svg class="w-6 h-6 text-gray-700" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                </button>
             </div>
             <div class="flex-grow overflow-y-auto sidebar-scrollbar">
                 <!-- Chapters and Episodes -->
@@ -324,6 +329,7 @@
             const downloadBtn = document.getElementById('download-btn');
             const sidebar = document.getElementById('sidebar');
             const resizer = document.getElementById('sidebar-resizer');
+            const sidebarCloseBtn = document.getElementById('sidebar-close-btn');
 
             let currentEpisodeIndex = 0;
             const allEpisodes = Array.from(episodes);
@@ -575,6 +581,20 @@
                     document.body.style.cursor = '';
                     document.body.style.userSelect = '';
                 }
+            });
+
+            // Sidebar close button functionality
+            function setSidebarCloseBtnVisibility() {
+                if (window.innerWidth <= 768) {
+                    sidebarCloseBtn.style.display = 'block';
+                } else {
+                    sidebarCloseBtn.style.display = 'none';
+                }
+            }
+            setSidebarCloseBtnVisibility();
+            window.addEventListener('resize', setSidebarCloseBtnVisibility);
+            sidebarCloseBtn.addEventListener('click', function() {
+                sidebar.classList.remove('open');
             });
         });
     </script>
