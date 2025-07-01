@@ -142,6 +142,32 @@ body {
     box-sizing: border-box;
 }
 
+/* Theme toggle button styles */
+#theme-toggle-btn {
+    position: fixed;
+    top: 1.25rem;
+    right: 1.25rem;
+    z-index: 60;
+    background: #fff;
+    border: 1px solid #e5e7eb;
+    border-radius: 0.5rem;
+    padding: 0.5rem 0.75rem;
+    box-shadow: 0 2px 8px 0 rgba(0,0,0,0.08);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-weight: 500;
+    color: #374151;
+    cursor: pointer;
+    transition: background 0.2s, color 0.2s;
+}
+#theme-toggle-btn:hover {
+    background: #f1f5f9;
+}
+@media (max-width: 1024px) {
+    #theme-toggle-btn { display: none !important; }
+}
+
 /* === Dark mode styles (desktop only) === */
 @media (min-width: 1025px) {
   .dark body {

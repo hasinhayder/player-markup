@@ -107,20 +107,25 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
-    // Chapter collapse functionality
-    chapters.forEach(chapter => {
+    // Chapter collapse functionality (accordion: only one open at a time)
+    chapters.forEach((chapter, idx) => {
         const header = chapter.querySelector('.chapter-header');
         const icon = header.querySelector('i');
         header.addEventListener('click', () => {
-            chapter.classList.toggle('open');
-            // Explicitly set the icon class based on the 'open' state
-            if (chapter.classList.contains('open')) {
-                icon.classList.remove('fa-chevron-up');
-                icon.classList.add('fa-chevron-down');
-            } else {
-                icon.classList.remove('fa-chevron-down');
-                icon.classList.add('fa-chevron-up');
-            }
+            chapters.forEach((c, i) => {
+                if (c === chapter) {
+                    c.classList.add('open');
+                    icon.classList.remove('fa-chevron-up');
+                    icon.classList.add('fa-chevron-down');
+                } else {
+                    c.classList.remove('open');
+                    const otherIcon = c.querySelector('.chapter-header i');
+                    if (otherIcon) {
+                        otherIcon.classList.remove('fa-chevron-down');
+                        otherIcon.classList.add('fa-chevron-up');
+                    }
+                }
+            });
         });
     });
 
@@ -278,4 +283,36 @@ document.addEventListener('DOMContentLoaded', function() {
     sidebarCloseBtn.addEventListener('click', function() {
         sidebar.classList.remove('open');
     });
+
+    // Light/Dark mode logic
+    (function() {
+        const root = document.documentElement;
+        const themeBtn = document.getElementById('theme-toggle-btn');
+        const themeIcon = document.getElementById('theme-toggle-icon');
+        const themeLabel = document.getElementById('theme-toggle-label');
+        // Check localStorage or system preference
+        function getPreferredTheme() {
+            const stored = localStorage.getItem('theme');
+            if (stored) return stored;
+            return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+        }
+        function setTheme(theme) {
+            if (theme === 'dark') {
+                root.classList.add('dark');
+                themeIcon.className = 'fa fa-sun';
+                themeLabel.textContent = 'Light';
+            } else {
+                root.classList.remove('dark');
+                themeIcon.className = 'fa fa-moon';
+                themeLabel.textContent = 'Dark';
+            }
+            localStorage.setItem('theme', theme);
+        }
+        // Initial
+        setTheme(getPreferredTheme());
+        themeBtn.addEventListener('click', function() {
+            const isDark = root.classList.contains('dark');
+            setTheme(isDark ? 'light' : 'dark');
+        });
+    })();
 });
