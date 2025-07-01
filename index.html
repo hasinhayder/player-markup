@@ -99,7 +99,11 @@
     <div class="flex h-screen bg-white">
         <!-- Left Sidebar -->
         <aside id="sidebar" class="w-full md:w-1/3 lg:w-1/4 xl:w-1/5 h-full flex flex-col border-r border-gray-200 shadow-lg relative" style="min-width:180px; max-width:600px;">
-            <div id="sidebar-resizer" class="absolute top-0 right-0 h-full w-2 cursor-col-resize z-20 bg-transparent"></div>
+            <div id="sidebar-resizer" class="hidden md:block absolute top-1/2 right-0 -translate-y-1/2 h-10 w-2 cursor-col-resize z-20 flex items-center justify-center" style="pointer-events: auto;">
+                <div class="w-2 h-10 bg-blue-200 flex items-center justify-center" style="position: absolute; right: -6px;">
+                    <!-- No border radius, half in/half out -->
+                </div>
+            </div>
             <div class="p-4 border-b border-gray-200">
                 <h1 class="text-xl font-bold text-gray-900">Course Content</h1>
                 <p class="text-sm text-gray-500">Getting Started with Design</p>
@@ -432,7 +436,25 @@
             let startX = 0;
             let startWidth = 0;
 
+            // Only enable resizing on md and up
+            function isResizable() {
+                return window.innerWidth >= 768;
+            }
+
+            function setResizerVisibility() {
+                if (isResizable()) {
+                    resizer.classList.remove('hidden');
+                } else {
+                    resizer.classList.add('hidden');
+                    sidebar.style.width = '';
+                    sidebar.style.flex = '';
+                }
+            }
+            setResizerVisibility();
+            window.addEventListener('resize', setResizerVisibility);
+
             resizer.addEventListener('mousedown', function(e) {
+                if (!isResizable()) return;
                 isResizing = true;
                 startX = e.clientX;
                 startWidth = sidebar.offsetWidth;
@@ -441,7 +463,7 @@
             });
 
             document.addEventListener('mousemove', function(e) {
-                if (!isResizing) return;
+                if (!isResizing || !isResizable()) return;
                 let newWidth = startWidth + (e.clientX - startX);
                 newWidth = Math.max(180, Math.min(600, newWidth)); // min/max width
                 sidebar.style.width = newWidth + 'px';
