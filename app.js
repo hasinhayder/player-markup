@@ -345,7 +345,6 @@ document.addEventListener('DOMContentLoaded', function() {
         const root = document.documentElement;
         const themeBtn = document.getElementById('theme-toggle-btn');
         const themeIcon = document.getElementById('theme-toggle-icon');
-        const themeLabel = document.getElementById('theme-toggle-label');
         // Check localStorage or system preference
         function getPreferredTheme() {
             const stored = localStorage.getItem('theme');
@@ -356,11 +355,9 @@ document.addEventListener('DOMContentLoaded', function() {
             if (theme === 'dark') {
                 root.classList.add('dark');
                 themeIcon.className = 'fa fa-sun';
-                themeLabel.textContent = 'Light';
             } else {
                 root.classList.remove('dark');
                 themeIcon.className = 'fa fa-moon';
-                themeLabel.textContent = 'Dark';
             }
             localStorage.setItem('theme', theme);
         }
