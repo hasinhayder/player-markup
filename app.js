@@ -130,25 +130,35 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // Chapter collapse functionality (accordion: only one open at a time)
-    chapters.forEach((chapter, idx) => {
+    // Chapter collapse functionality (accordion: only one open at a time, and clicking open chapter collapses it)
+    chapters.forEach((chapter) => {
         const header = chapter.querySelector('.chapter-header');
         const icon = header.querySelector('i');
         header.addEventListener('click', () => {
-            chapters.forEach((c, i) => {
-                if (c === chapter) {
-                    c.classList.add('open');
-                    icon.classList.remove('fa-chevron-up');
-                    icon.classList.add('fa-chevron-down');
-                } else {
+            const isOpen = chapter.classList.contains('open');
+            // If already open, collapse it
+            if (isOpen) {
+                chapter.classList.remove('open');
+                if (icon) {
+                    icon.classList.remove('fa-chevron-down');
+                    icon.classList.add('fa-chevron-up');
+                }
+            } else {
+                // Close all chapters, open only this one
+                chapters.forEach((c) => {
                     c.classList.remove('open');
                     const otherIcon = c.querySelector('.chapter-header i');
                     if (otherIcon) {
                         otherIcon.classList.remove('fa-chevron-down');
                         otherIcon.classList.add('fa-chevron-up');
                     }
+                });
+                chapter.classList.add('open');
+                if (icon) {
+                    icon.classList.remove('fa-chevron-up');
+                    icon.classList.add('fa-chevron-down');
                 }
-            });
+            }
         });
     });
 
