@@ -98,7 +98,8 @@
 
     <div class="flex h-screen bg-white">
         <!-- Left Sidebar -->
-        <aside class="w-full md:w-1/3 lg:w-1/4 xl:w-1/5 h-full flex flex-col border-r border-gray-200 shadow-lg">
+        <aside id="sidebar" class="w-full md:w-1/3 lg:w-1/4 xl:w-1/5 h-full flex flex-col border-r border-gray-200 shadow-lg relative" style="min-width:180px; max-width:600px;">
+            <div id="sidebar-resizer" class="absolute top-0 right-0 h-full w-2 cursor-col-resize z-20 bg-transparent"></div>
             <div class="p-4 border-b border-gray-200">
                 <h1 class="text-xl font-bold text-gray-900">Course Content</h1>
                 <p class="text-sm text-gray-500">Getting Started with Design</p>
@@ -422,6 +423,37 @@
                 const currentEpisode = allEpisodes[currentEpisodeIndex];
                 currentEpisode.classList.toggle('bookmarked');
                 updateBookmarkButton(currentEpisode);
+            });
+
+            // Sidebar resizer functionality
+            const sidebar = document.getElementById('sidebar');
+            const resizer = document.getElementById('sidebar-resizer');
+            let isResizing = false;
+            let startX = 0;
+            let startWidth = 0;
+
+            resizer.addEventListener('mousedown', function(e) {
+                isResizing = true;
+                startX = e.clientX;
+                startWidth = sidebar.offsetWidth;
+                document.body.style.cursor = 'col-resize';
+                document.body.style.userSelect = 'none';
+            });
+
+            document.addEventListener('mousemove', function(e) {
+                if (!isResizing) return;
+                let newWidth = startWidth + (e.clientX - startX);
+                newWidth = Math.max(180, Math.min(600, newWidth)); // min/max width
+                sidebar.style.width = newWidth + 'px';
+                sidebar.style.flex = 'none';
+            });
+
+            document.addEventListener('mouseup', function() {
+                if (isResizing) {
+                    isResizing = false;
+                    document.body.style.cursor = '';
+                    document.body.style.userSelect = '';
+                }
             });
 
             // Load the first episode initially
