@@ -38,10 +38,14 @@
         .episode.active {
             background-color: #e0f2fe; /* light-blue-100 */
         }
-        /* Make video full-width */
+        /* Make video full-width with max width and center */
         .video-container {
             width: 100%;
+            max-width: 1000px;
             aspect-ratio: 16 / 9;
+            margin-left: auto;
+            margin-right: auto;
+            display: block;
         }
         .video-container iframe {
             width: 100%;
@@ -75,6 +79,19 @@
         .rich-content pre code {
             border-radius: 0.5rem;
         }
+        /* Main content area padding */
+        #content-display-wrapper {
+            padding: 2rem 0; /* vertical padding */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        #content-display {
+            width: 100%;
+            max-width: 1000px;
+            padding: 0 1.5rem; /* horizontal padding */
+            box-sizing: border-box;
+        }
     </style>
 </head>
 <body class="bg-gray-100 text-gray-800">
@@ -97,7 +114,7 @@
                         </div>
                         <div class="chapter-content">
                             <ul class="episodes-list">
-                                <li class="episode flex items-start p-4 cursor-pointer hover:bg-blue-50 transition-colors duration-200 active" data-content-type="video" data-content-src="https://www.youtube.com/embed/dQw4w9WgXcQ" data-resource-url="#download-link-1">
+                                <li class="episode flex items-start p-4 cursor-pointer hover:bg-blue-50 transition-colors duration-200 active" data-content-type="video" data-content-src="https://www.youtube.com/embed/dQw4w9WgXcQ" data-resource-url="#download-link-1" data-notes-id="video-1-notes">
                                     <span class="text-lg font-bold text-blue-600 mr-4">1</span>
                                     <div class="flex-grow">
                                         <h3 class="font-medium text-gray-800">Welcome to the Course: What to Expect</h3>
@@ -202,6 +219,28 @@
             <p>This is the text content for Advanced Topic 1. We will dive deep into typography, exploring font pairings, line height, and kerning to create beautiful and readable text layouts.</p>
         </div>
     </template>
+    <!-- Example video notes template -->
+    <template id="video-1-notes">
+        <div class="rich-content">
+            <h3 class="text-xl font-semibold mb-2">Video Notes & Resources</h3>
+            <p class="mb-2">This video introduces the course and what you can expect to learn. Here are some key points and resources:</p>
+            <ul class="list-disc pl-6 mb-4">
+                <li>Understand the course structure and objectives.</li>
+                <li>Meet your instructor and learn about their background.</li>
+                <li>Overview of the tools and resources provided.</li>
+            </ul>
+            <h4 class="font-semibold mt-4 mb-1">Downloadable Materials</h4>
+            <ul class="list-disc pl-6 mb-4">
+                <li><a href="#" class="text-blue-600 underline">Course Slides (PDF)</a></li>
+                <li><a href="#" class="text-blue-600 underline">Sample Project Files</a></li>
+            </ul>
+            <h4 class="font-semibold mt-4 mb-1">Further Reading</h4>
+            <ul class="list-disc pl-6">
+                <li><a href="https://developer.mozilla.org/" target="_blank" class="text-blue-600 underline">MDN Web Docs</a></li>
+                <li><a href="https://www.smashingmagazine.com/" target="_blank" class="text-blue-600 underline">Smashing Magazine</a></li>
+            </ul>
+        </div>
+    </template>
 
 
     <script>
@@ -226,12 +265,28 @@
 
                 if (contentType === 'video') {
                     const contentSrc = episode.dataset.contentSrc;
+                    const videoTitle = episode.querySelector('h3').innerText;
+                    // Try to get a description from a data attribute or fallback to a default
+                    const videoDescription = episode.dataset.description || '';
+                    // Try to get a detailed notes id from a data attribute
+                    const notesId = episode.dataset.notesId;
+                    let notesHtml = '';
+                    if (notesId) {
+                        const notesTemplate = document.getElementById(notesId);
+                        if (notesTemplate) {
+                            notesHtml = notesTemplate.innerHTML;
+                        }
+                    }
                     contentDisplay.innerHTML = `
                         <div>
                             <div class="video-container bg-black rounded-lg overflow-hidden shadow-lg">
                                 <iframe src="${contentSrc}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
                             </div>
-                            <h2 class="text-2xl font-bold mt-6 mb-2 px-4 md:px-8">${episode.querySelector('h3').innerText}</h2>
+                            <h2 class="text-2xl font-bold mt-6 mb-2 px-4 md:px-8">${videoTitle}</h2>
+                            <div class="text-gray-600 text-base px-4 md:px-8 mb-6" id="video-description">${videoDescription}</div>
+                            <div class="video-notes-section px-4 md:px-8 mb-8">
+                                ${notesHtml}
+                            </div>
                         </div>
                     `;
                 } else if (contentType === 'text') {
