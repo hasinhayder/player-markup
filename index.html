@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Course Player</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Syntax Highlighting -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .sidebar-scrollbar::-webkit-scrollbar {
+            width: 6px;
+        }
+        .sidebar-scrollbar::-webkit-scrollbar-track {
+            background: #f1f5f9;
+        }
+        .sidebar-scrollbar::-webkit-scrollbar-thumb {
+            background: #94a3b8;
+            border-radius: 3px;
+        }
+        .sidebar-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: #64748b;
+        }
+        .chapter-content {
+            max-height: 0;
+            overflow: hidden;
+            /* transition removed for instant collapse/expand */
+        }
+        .chapter.open .chapter-content {
+            max-height: 1000px; /* Adjust as needed */
+        }
+        .episode.active {
+            background-color: #e0f2fe; /* light-blue-100 */
+        }
+        /* Make video full-width */
+        .video-container {
+            width: 100%;
+            aspect-ratio: 16 / 9;
+        }
+        .video-container iframe {
+            width: 100%;
+            height: 100%;
+        }
+        /* Rich content styling */
+        .rich-content h2 {
+            font-size: 1.875rem; /* text-3xl */
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+        .rich-content p {
+            font-size: 1.125rem; /* text-lg */
+            line-height: 1.75; /* leading-relaxed */
+            margin-bottom: 1rem;
+        }
+        .rich-content a {
+            color: #2563eb; /* blue-600 */
+            text-decoration: underline;
+        }
+        .rich-content a:hover {
+            color: #1d4ed8; /* blue-800 */
+        }
+        .rich-content img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 0.5rem; /* rounded-lg */
+            margin-top: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+        .rich-content pre code {
+            border-radius: 0.5rem;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 text-gray-800">
+
+    <div class="flex h-screen bg-white">
+        <!-- Left Sidebar -->
+        <aside class="w-full md:w-1/3 lg:w-1/4 xl:w-1/5 h-full flex flex-col border-r border-gray-200 shadow-lg">
+            <div class="p-4 border-b border-gray-200">
+                <h1 class="text-xl font-bold text-gray-900">Course Content</h1>
+                <p class="text-sm text-gray-500">Getting Started with Design</p>
+            </div>
+            <div class="flex-grow overflow-y-auto sidebar-scrollbar">
+                <!-- Chapters and Episodes -->
+                <div id="course-outline">
+                    <!-- Chapter 1 -->
+                    <div class="chapter open border-b border-gray-200">
+                        <div class="chapter-header flex justify-between items-center p-4 cursor-pointer hover:bg-gray-50">
+                            <h2 class="text-lg font-semibold text-gray-800">Chapter 1: Introduction</h2>
+                            <i class="fas fa-chevron-down transform transition-transform"></i>
+                        </div>
+                        <div class="chapter-content">
+                            <ul class="episodes-list">
+                                <li class="episode flex items-start p-4 cursor-pointer hover:bg-blue-50 transition-colors duration-200 active" data-content-type="video" data-content-src="https://www.youtube.com/embed/dQw4w9WgXcQ" data-resource-url="#download-link-1">
+                                    <span class="text-lg font-bold text-blue-600 mr-4">1</span>
+                                    <div class="flex-grow">
+                                        <h3 class="font-medium text-gray-800">Welcome to the Course: What to Expect</h3>
+                                        <span class="text-sm text-gray-500">5:32</span>
+                                    </div>
+                                    <i class="far fa-bookmark text-gray-400 hover:text-blue-600 ml-4 mt-1"></i>
+                                </li>
+                                <li class="episode flex items-start p-4 cursor-pointer hover:bg-blue-50 transition-colors duration-200" data-content-type="text" data-content-id="episode-2-content" data-resource-url="#download-link-2">
+                                    <span class="text-lg font-bold text-blue-600 mr-4">2</span>
+                                    <div class="flex-grow">
+                                        <h3 class="font-medium text-gray-800">Core Principles of Good Design and User Experience</h3>
+                                        <span class="text-sm text-gray-500">12:15</span>
+                                    </div>
+                                    <i class="far fa-bookmark text-gray-400 hover:text-blue-600 ml-4 mt-1"></i>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <!-- Chapter 2 -->
+                    <div class="chapter border-b border-gray-200">
+                        <div class="chapter-header flex justify-between items-center p-4 cursor-pointer hover:bg-gray-50">
+                            <h2 class="text-lg font-semibold text-gray-800">Chapter 2: Advanced Topics</h2>
+                            <i class="fas fa-chevron-up transform transition-transform"></i>
+                        </div>
+                        <div class="chapter-content">
+                             <ul class="episodes-list">
+                                <li class="episode flex items-start p-4 cursor-pointer hover:bg-blue-50 transition-colors duration-200" data-content-type="text" data-content-id="episode-3-content" data-resource-url="#download-link-3">
+                                    <span class="text-lg font-bold text-blue-600 mr-4">3</span>
+                                    <div class="flex-grow">
+                                        <h3 class="font-medium text-gray-800">Advanced Topic 1</h3>
+                                        <span class="text-sm text-gray-500">8:45</span>
+                                    </div>
+                                    <i class="far fa-bookmark text-gray-400 hover:text-blue-600 ml-4 mt-1"></i>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                     <!-- Chapter 3 -->
+                    <div class="chapter">
+                        <div class="chapter-header flex justify-between items-center p-4 cursor-pointer hover:bg-gray-50">
+                            <h2 class="text-lg font-semibold text-gray-800">Chapter 3: Conclusion</h2>
+                            <i class="fas fa-chevron-up transform transition-transform"></i>
+                        </div>
+                        <div class="chapter-content">
+                             <ul class="episodes-list">
+                                <li class="episode flex items-start p-4 cursor-pointer hover:bg-blue-50 transition-colors duration-200" data-content-type="video" data-content-src="https://www.youtube.com/embed/xvFZjo5PgG0" data-resource-url="#download-link-4">
+                                    <span class="text-lg font-bold text-blue-600 mr-4">4</span>
+                                    <div class="flex-grow">
+                                        <h3 class="font-medium text-gray-800">Course Wrap-up and Next Steps</h3>
+                                        <span class="text-sm text-gray-500">3:10</span>
+                                    </div>
+                                    <i class="far fa-bookmark text-gray-400 hover:text-blue-600 ml-4 mt-1"></i>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="flex-grow h-full flex flex-col bg-gray-50">
+            <div id="content-display-wrapper" class="flex-grow overflow-y-auto">
+                 <div id="content-display">
+                    <!-- Content will be loaded here -->
+                 </div>
+            </div>
+            <div class="flex flex-col md:flex-row items-center justify-between p-4 border-t border-gray-200 bg-white shadow-inner">
+                <div class="flex items-center space-x-4 mb-4 md:mb-0">
+                    <button id="prev-btn" class="px-4 py-2 rounded-lg bg-gray-200 hover:bg-gray-300 text-gray-700 font-semibold transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed"><i class="fas fa-arrow-left mr-2"></i>Previous</button>
+                    <button id="next-btn" class="px-4 py-2 rounded-lg bg-blue-600 hover:bg-blue-700 text-white font-semibold transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed">Next<i class="fas fa-arrow-right ml-2"></i></button>
+                </div>
+                <div class="flex items-center space-x-2 md:space-x-4">
+                    <button id="complete-btn" class="px-4 py-2 rounded-lg border border-green-500 text-green-600 hover:bg-green-50 font-semibold transition-colors duration-200"><i class="far fa-check-circle mr-2"></i>Mark as Completed</button>
+                    <button id="bookmark-btn" class="px-4 py-2 rounded-lg text-gray-500 hover:text-blue-600 hover:bg-blue-50 transition-colors duration-200"><i class="far fa-bookmark mr-2"></i>Bookmark</button>
+                    <a id="download-btn" href="#" class="px-4 py-2 rounded-lg bg-gray-800 hover:bg-gray-900 text-white font-semibold transition-colors duration-200"><i class="fas fa-download mr-2"></i>Download Resource</a>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Templates for rich text content -->
+    <template id="episode-2-content">
+        <div class="rich-content p-4 md:p-8">
+            <h2>Core Principles of Good Design</h2>
+            <p>This episode covers the fundamental principles of design. We will explore concepts like balance, contrast, hierarchy, and repetition. Understanding these principles is crucial for creating visually appealing and effective designs.</p>
+            <img src="https://placehold.co/800x400/e2e8f0/475569?text=Design+Principle+Diagram" alt="Diagram of design principles">
+            <p>For more in-depth reading, check out <a href="#" target="_blank">this article on Smashing Magazine</a>. It provides excellent examples.</p>
+            <p>Here is an example of how you might structure your HTML for a card component:</p>
+            <pre><code class="language-html">&lt;div class="card"&gt;
+  &lt;img src="image.jpg" alt="Card Image"&gt;
+  &lt;div class="card-content"&gt;
+    &lt;h3&gt;Card Title&lt;/h3&gt;
+    &lt;p&gt;Some descriptive text about the card.&lt;/p&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+        </div>
+    </template>
+    <template id="episode-3-content">
+         <div class="rich-content p-4 md:p-8">
+            <h2>Advanced Topic 1: Typography</h2>
+            <p>This is the text content for Advanced Topic 1. We will dive deep into typography, exploring font pairings, line height, and kerning to create beautiful and readable text layouts.</p>
+        </div>
+    </template>
+
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const chapters = document.querySelectorAll('.chapter');
+            const episodes = document.querySelectorAll('.episode');
+            const contentDisplay = document.getElementById('content-display');
+            const prevBtn = document.getElementById('prev-btn');
+            const nextBtn = document.getElementById('next-btn');
+            const completeBtn = document.getElementById('complete-btn');
+            const bookmarkBtn = document.getElementById('bookmark-btn');
+            const downloadBtn = document.getElementById('download-btn');
+
+            let currentEpisodeIndex = 0;
+            const allEpisodes = Array.from(episodes);
+
+            function loadContent(episode) {
+                const contentType = episode.dataset.contentType;
+                const resourceUrl = episode.dataset.resourceUrl;
+                
+                contentDisplay.innerHTML = ''; // Clear previous content
+
+                if (contentType === 'video') {
+                    const contentSrc = episode.dataset.contentSrc;
+                    contentDisplay.innerHTML = `
+                        <div>
+                            <div class="video-container bg-black rounded-lg overflow-hidden shadow-lg">
+                                <iframe src="${contentSrc}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                            </div>
+                            <h2 class="text-2xl font-bold mt-6 mb-2 px-4 md:px-8">${episode.querySelector('h3').innerText}</h2>
+                        </div>
+                    `;
+                } else if (contentType === 'text') {
+                    const contentId = episode.dataset.contentId;
+                    const template = document.getElementById(contentId);
+                    if (template) {
+                        contentDisplay.innerHTML = template.innerHTML;
+                        // After adding the content, tell highlight.js to process it
+                        hljs.highlightAll();
+                    } else {
+                        contentDisplay.innerHTML = `<p class="p-8">Content not found.</p>`;
+                    }
+                }
+
+                // Update download link
+                downloadBtn.href = resourceUrl;
+
+                // Update active state in sidebar
+                episodes.forEach(ep => ep.classList.remove('active'));
+                episode.classList.add('active');
+                
+                // Update button states
+                updateNavButtons();
+                updateCompleteButton(episode);
+                updateBookmarkButton(episode);
+            }
+
+            function updateNavButtons() {
+                prevBtn.disabled = currentEpisodeIndex === 0;
+                nextBtn.disabled = currentEpisodeIndex === allEpisodes.length - 1;
+            }
+
+            function updateCompleteButton(episode) {
+                if (episode.classList.contains('completed')) {
+                    completeBtn.innerHTML = '<i class="fas fa-check-circle mr-2"></i>Completed';
+                    completeBtn.classList.add('bg-green-100', 'text-green-700');
+                    completeBtn.classList.remove('border-green-500', 'text-green-600', 'hover:bg-green-50');
+                } else {
+                    completeBtn.innerHTML = '<i class="far fa-check-circle mr-2"></i>Mark as Completed';
+                    completeBtn.classList.remove('bg-green-100', 'text-green-700');
+                    completeBtn.classList.add('border-green-500', 'text-green-600', 'hover:bg-green-50');
+                }
+            }
+            
+            function updateBookmarkButton(episode) {
+                const mainBookmarkIcon = bookmarkBtn.querySelector('i');
+                const sidebarBookmarkIcon = episode.querySelector('.fa-bookmark');
+
+                if (episode.classList.contains('bookmarked')) {
+                    mainBookmarkIcon.classList.replace('far', 'fas');
+                    mainBookmarkIcon.classList.add('text-blue-600');
+                    sidebarBookmarkIcon.classList.replace('far', 'fas');
+                    sidebarBookmarkIcon.classList.add('text-blue-600');
+                } else {
+                    mainBookmarkIcon.classList.replace('fas', 'far');
+                    mainBookmarkIcon.classList.remove('text-blue-600');
+                    sidebarBookmarkIcon.classList.replace('fas', 'far');
+                    sidebarBookmarkIcon.classList.remove('text-blue-600');
+                }
+            }
+
+            // Chapter collapse functionality
+            chapters.forEach(chapter => {
+                const header = chapter.querySelector('.chapter-header');
+                const icon = header.querySelector('i');
+                header.addEventListener('click', () => {
+                    chapter.classList.toggle('open');
+                    // Explicitly set the icon class based on the 'open' state
+                    if (chapter.classList.contains('open')) {
+                        icon.classList.remove('fa-chevron-up');
+                        icon.classList.add('fa-chevron-down');
+                    } else {
+                        icon.classList.remove('fa-chevron-down');
+                        icon.classList.add('fa-chevron-up');
+                    }
+                });
+            });
+
+            // Episode click functionality
+            allEpisodes.forEach((episode, index) => {
+                episode.addEventListener('click', (e) => {
+                    // Prevent toggling bookmark when clicking the main episode body
+                    if (e.target.closest('.fa-bookmark')) {
+                        return;
+                    }
+                    currentEpisodeIndex = index;
+                    loadContent(episode);
+                });
+
+                // Sidebar bookmark toggle
+                const bookmarkIcon = episode.querySelector('.fa-bookmark');
+                bookmarkIcon.addEventListener('click', (e) => {
+                    e.stopPropagation(); // Prevent episode from loading again
+                    episode.classList.toggle('bookmarked');
+                    
+                    if(episode.classList.contains('active')) {
+                       updateBookmarkButton(episode);
+                    } else {
+                       if (episode.classList.contains('bookmarked')) {
+                           bookmarkIcon.classList.replace('far', 'fas');
+                           bookmarkIcon.classList.add('text-blue-600');
+                       } else {
+                           bookmarkIcon.classList.replace('fas', 'far');
+                           bookmarkIcon.classList.remove('text-blue-600');
+                       }
+                    }
+                });
+            });
+
+            // Navigation button functionality
+            prevBtn.addEventListener('click', () => {
+                if (currentEpisodeIndex > 0) {
+                    currentEpisodeIndex--;
+                    loadContent(allEpisodes[currentEpisodeIndex]);
+                }
+            });
+
+            nextBtn.addEventListener('click', () => {
+                if (currentEpisodeIndex < allEpisodes.length - 1) {
+                    currentEpisodeIndex++;
+                    loadContent(allEpisodes[currentEpisodeIndex]);
+                }
+            });
+
+            // Control buttons functionality
+            completeBtn.addEventListener('click', () => {
+                const currentEpisode = allEpisodes[currentEpisodeIndex];
+                currentEpisode.classList.toggle('completed');
+                updateCompleteButton(currentEpisode);
+            });
+
+            bookmarkBtn.addEventListener('click', () => {
+                const currentEpisode = allEpisodes[currentEpisodeIndex];
+                currentEpisode.classList.toggle('bookmarked');
+                updateBookmarkButton(currentEpisode);
+            });
+
+            // Load the first episode initially
+            if (allEpisodes.length > 0) {
+                loadContent(allEpisodes[0]);
+            }
+        });
+    </script>
+</body>
+</html>
