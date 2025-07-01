@@ -322,3 +322,27 @@ body {
     box-shadow: 0 2px 16px 0 rgba(0,0,0,0.5) !important;
   }
 }
+
+/* Sidebar persistent border (top to bottom) */
+#sidebar {
+  border-right: 1px solid #e5e7eb; /* Ensure persistent border */
+  box-shadow: none; /* Remove any shadow if present */
+  height: 100vh;
+  min-height: 100vh;
+  position: relative;
+  z-index: 30;
+  background: #fff;
+}
+
+/* Ensure the border is always visible, even if the sidebar content is short */
+#sidebar::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 1px;
+    height: 100%;
+    background: #e5e7eb;
+    pointer-events: none;
+    z-index: 40;
+}
