@@ -303,6 +303,14 @@
                 <li>Meet your instructor and learn about their background.</li>
                 <li>Overview of the tools and resources provided.</li>
             </ul>
+            <img src="https://placehold.co/600x250/bae6fd/0c4a6e?text=Sample+Course+Diagram" alt="Sample Course Diagram" class="my-6 rounded-lg shadow">
+            <h4 class="font-semibold mt-4 mb-1">Sample Code</h4>
+            <pre><code class="language-javascript">// Example JavaScript code for a greeting
+function greet(name) {
+    return `Hello, ${name}!`;
+}
+console.log(greet('World'));
+</code></pre>
             <h4 class="font-semibold mt-4 mb-1">Downloadable Materials</h4>
             <ul class="list-disc pl-6 mb-4">
                 <li><a href="#" class="text-blue-600 underline">Course Slides (PDF)</a></li>
@@ -366,6 +374,8 @@
                             </div>
                         </div>
                     `;
+                    // Ensure syntax highlighting for code blocks in video notes
+                    hljs.highlightAll();
                 } else if (contentType === 'text') {
                     const contentId = episode.dataset.contentId;
                     const template = document.getElementById(contentId);
