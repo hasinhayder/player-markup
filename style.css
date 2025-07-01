@@ -1,5 +1,6 @@
 body {
     font-family: 'Inter', sans-serif;
+    padding-top: 44px; /* Ensure content is not hidden under the bar */
 }
 .sidebar-scrollbar::-webkit-scrollbar {
     width: 6px;
@@ -166,6 +167,27 @@ body {
 }
 @media (max-width: 1024px) {
     #theme-toggle-btn { display: none !important; }
+}
+
+/* Admin bar styles */
+#admin-bar {
+  box-shadow: 0 2px 8px 0 rgba(0,0,0,0.08);
+  font-family: 'Inter', sans-serif;
+}
+#admin-bar #theme-toggle-btn {
+  margin-left: 1rem;
+  background: #1f2937;
+  border: 1px solid #374151;
+  color: #fff;
+  padding: 0.25rem 0.75rem;
+  border-radius: 0.375rem;
+  font-size: 1rem;
+  transition: background 0.2s, color 0.2s;
+  box-shadow: none;
+  position: static;
+}
+#admin-bar #theme-toggle-btn:hover {
+  background: #374151;
 }
 
 /* === Dark mode styles (desktop only) === */

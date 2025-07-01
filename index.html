@@ -13,14 +13,24 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body class="bg-gray-100 text-gray-800">
-    <button id="theme-toggle-btn" aria-label="Toggle light/dark mode">
-        <span id="theme-toggle-icon" class="fa fa-moon"></span>
-        <span id="theme-toggle-label">Dark</span>
-    </button>
+    <!-- Top Admin Bar -->
+    <div id="admin-bar" class="w-full bg-black text-white flex items-center justify-between px-4 py-2 text-sm fixed top-0 left-0 z-50" style="height: 44px;">
+        <div class="flex items-center space-x-4">
+            <span class="font-bold text-lg tracking-wide">BrandName</span>
+        </div>
+        <div class="flex items-center space-x-6">
+            <span id="admin-bar-progress" class="flex items-center"><i class="fas fa-chart-line mr-1"></i> <span id="admin-bar-percentage">0%</span> Complete</span>
+            <span id="admin-bar-username" class="flex items-center"><i class="fas fa-user-circle mr-1"></i> Username</span>
+            <button id="theme-toggle-btn" aria-label="Toggle light/dark mode" class="ml-4 bg-gray-800 hover:bg-gray-700 border border-gray-700 rounded px-2 py-1 flex items-center">
+                <span id="theme-toggle-icon" class="fa fa-moon"></span>
+                <span id="theme-toggle-label" class="ml-1">Dark</span>
+            </button>
+        </div>
+    </div>
     <button id="hamburger-btn" class="fixed top-4 left-4 z-50 bg-white border border-gray-200 rounded-lg p-2 shadow-lg flex items-center justify-center md:hidden" aria-label="Open sidebar" style="display:none;">
         <svg class="w-7 h-7 text-gray-700" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
     </button>
-    <div class="flex h-screen bg-white">
+    <div class="flex min-h-screen bg-white">
         <!-- Left Sidebar -->
         <aside id="sidebar" class="w-full md:w-1/3 lg:w-1/4 xl:w-1/5 h-full flex flex-col border-r border-gray-200 shadow-lg relative" style="min-width:180px; max-width:600px;">
             <div id="sidebar-resizer" class="hidden md:block absolute top-1/2 right-0 -translate-y-1/2 h-10 w-2 cursor-col-resize z-20 flex items-center justify-center" style="pointer-events: auto;">

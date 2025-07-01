@@ -208,6 +208,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const currentEpisode = allEpisodes[currentEpisodeIndex];
         currentEpisode.classList.toggle('completed');
         updateCompleteButton(currentEpisode);
+        updateAdminBar();
     });
 
     bookmarkBtn.addEventListener('click', () => {
@@ -215,6 +216,24 @@ document.addEventListener('DOMContentLoaded', function() {
         currentEpisode.classList.toggle('bookmarked');
         updateBookmarkButton(currentEpisode);
     });
+
+    // Admin bar logic
+    function updateAdminBar() {
+        // Set username (replace with real logic if needed)
+        const username = 'john.doe';
+        document.getElementById('admin-bar-username').innerHTML = `<i class="fas fa-user-circle mr-1"></i> ${username}`;
+        // Calculate percentage complete
+        const totalEpisodes = allEpisodes.length;
+        const completedEpisodes = allEpisodes.filter(ep => ep.classList.contains('completed')).length;
+        const percent = totalEpisodes > 0 ? Math.round((completedEpisodes / totalEpisodes) * 100) : 0;
+        document.getElementById('admin-bar-percentage').textContent = percent + '%';
+    }
+    // Update on load and when marking complete
+    updateAdminBar();
+    completeBtn.addEventListener('click', () => {
+        updateAdminBar();
+    });
+    // Also update when toggling complete from sidebar (if you add such a feature)
 
     // Hamburger menu and responsive sidebar
     const hamburgerBtn = document.getElementById('hamburger-btn');
