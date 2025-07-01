@@ -107,6 +107,29 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
+    function openChapterForEpisode(episode) {
+        // Find the parent chapter of the episode
+        const parentChapter = episode.closest('.chapter');
+        if (!parentChapter) return;
+        chapters.forEach((chapter) => {
+            if (chapter === parentChapter) {
+                chapter.classList.add('open');
+                const icon = chapter.querySelector('.chapter-header i');
+                if (icon) {
+                    icon.classList.remove('fa-chevron-up');
+                    icon.classList.add('fa-chevron-down');
+                }
+            } else {
+                chapter.classList.remove('open');
+                const icon = chapter.querySelector('.chapter-header i');
+                if (icon) {
+                    icon.classList.remove('fa-chevron-down');
+                    icon.classList.add('fa-chevron-up');
+                }
+            }
+        });
+    }
+
     // Chapter collapse functionality (accordion: only one open at a time)
     chapters.forEach((chapter, idx) => {
         const header = chapter.querySelector('.chapter-header');
@@ -165,14 +188,18 @@ document.addEventListener('DOMContentLoaded', function() {
     prevBtn.addEventListener('click', () => {
         if (currentEpisodeIndex > 0) {
             currentEpisodeIndex--;
-            loadContent(allEpisodes[currentEpisodeIndex]);
+            const episode = allEpisodes[currentEpisodeIndex];
+            openChapterForEpisode(episode);
+            loadContent(episode);
         }
     });
 
     nextBtn.addEventListener('click', () => {
         if (currentEpisodeIndex < allEpisodes.length - 1) {
             currentEpisodeIndex++;
-            loadContent(allEpisodes[currentEpisodeIndex]);
+            const episode = allEpisodes[currentEpisodeIndex];
+            openChapterForEpisode(episode);
+            loadContent(episode);
         }
     });
 
