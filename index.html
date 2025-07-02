@@ -1,293 +1,302 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Interactive Course Player</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
     <!-- Syntax Highlighting -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
-    <link rel="stylesheet" href="style.css">
-</head>
-<body class="bg-gray-100 text-gray-800">
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body class="bg-gray-100 text-gray-800">
     <!-- Top Admin Bar -->
-    <div id="admin-bar" class="w-full bg-black text-white flex items-center justify-between px-4 py-2 text-sm fixed top-0 left-0 z-50" style="height: 44px;">
-        <div class="flex items-center space-x-4">
-            <span class="font-bold text-lg tracking-wide">BrandName</span>
-        </div>
-        <div class="flex items-center space-x-6">
-            <span id="admin-bar-progress" class="flex items-center"><i class="fas fa-chart-line mr-1"></i> <span id="admin-bar-percentage">0%</span> Complete</span>
-            <span id="admin-bar-username" class="flex items-center"><i class="fas fa-user-circle mr-1"></i> Username</span>
-            <button id="theme-toggle-btn" aria-label="Toggle light/dark mode" class="ml-4 bg-gray-800 hover:bg-gray-700 border border-gray-700 rounded px-2 py-1 flex items-center">
-                <span id="theme-toggle-icon" class="fa fa-moon"></span>
-            </button>
-        </div>
+    <div id="admin-bar" class="w-full bg-black text-white flex items-center justify-between px-4 py-2 text-sm fixed top-0 left-0 z-50" style="height: 44px">
+      <div class="flex items-center space-x-10 md:space-x-0">
+        <!-- hamburger icon  -->
+        <button id="hamburger-btn" class="fixed mr-2 left-4- z-50- bg-white text-white border border-gray-200 rounded-md p-1 shadow-lg- flex items-center justify-center md:hidden" aria-label="Open sidebar" style="display: none">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#000" class="bi bi-list" viewBox="0 0 16 16">
+            <path fill-rule="evenodd" d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5" />
+          </svg>
+        </button>
+        <span class="font-bold text-lg tracking-wide">BrandName</span>
+      </div>
+      <div class="flex items-center space-x-6">
+        <span id="admin-bar-progress" class="flex items-center"><i class="fas fa-chart-line mr-1"></i> <span id="admin-bar-percentage">0%</span> Complete</span>
+        <span id="admin-bar-username" class="flex items-center"><i class="fas fa-user-circle mr-1"></i> Username</span>
+        <button id="theme-toggle-btn" aria-label="Toggle light/dark mode" class="ml-4 bg-gray-800 hover:bg-gray-700 border border-gray-700 rounded px-2 py-1 flex items-center">
+          <span id="theme-toggle-icon" class="fa fa-moon"></span>
+        </button>
+      </div>
     </div>
-    <button id="hamburger-btn" class="fixed top-4 left-4 z-50 bg-white border border-gray-200 rounded-lg p-2 shadow-lg flex items-center justify-center md:hidden" aria-label="Open sidebar" style="display:none;">
-        <svg class="w-7 h-7 text-gray-700" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
-    </button>
-    <div class="flex min-h-screen bg-white">
-        <!-- Left Sidebar -->
-        <aside id="sidebar" class="w-full md:w-1/3 lg:w-1/4 xl:w-1/5 h-full flex flex-col border-r border-gray-200 shadow-lg relative" style="min-width:180px; max-width:600px;">
-            <div id="sidebar-resizer" class="hidden md:block absolute top-1/2 right-0 -translate-y-1/2 h-10 w-2 cursor-col-resize z-20 flex items-center justify-center" style="pointer-events: auto;">
-                <div class="w-2 h-10 bg-blue-200 flex items-center justify-center" style="position: absolute; right: -6px;"></div>
+
+    <!-- <div class="flex min-h-screen bg-white"> -->
+    <div class="dashboard">
+      <!-- Left Sidebar -->
+      <aside id="sidebar" class="w-full md:w-1/3 lg:w-1/4 xl:w-1/5 h-full flex flex-col border-r border-gray-200 shadow-lg relative" style="min-width: 180px; max-width: 600px">
+        <div id="sidebar-resizer" class="bar-resizer cursor-col-resize bg-blue-200 w-2 h-10"></div>
+        <div class="sidebar-content">
+          <div class="p-4 border-b border-gray-200 flex items-center justify-between">
+            <div>
+              <h1 class="text-xl font-bold text-gray-900">Course Content</h1>
+              <p class="text-sm text-gray-500">Getting Started with Design</p>
             </div>
-            <div class="p-4 border-b border-gray-200 flex items-center justify-between">
-                <div>
-                    <h1 class="text-xl font-bold text-gray-900">Course Content</h1>
-                    <p class="text-sm text-gray-500">Getting Started with Design</p>
+            <button id="sidebar-close-btn" class="md:hidden ml-2 p-2 rounded hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-400" aria-label="Close sidebar" style="display: none">
+              <svg class="w-6 h-6 text-gray-700" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="18" y1="6" x2="6" y2="18" />
+                <line x1="6" y1="6" x2="18" y2="18" />
+              </svg>
+            </button>
+          </div>
+          <div class="flex-grow overflow-y-auto sidebar-scrollbar">
+            <!-- Chapters and Episodes -->
+            <div id="course-outline">
+              <!-- Chapter 1 -->
+              <div class="chapter open border-b border-gray-200">
+                <div class="chapter-header flex justify-between items-center p-4 cursor-pointer hover:bg-gray-50">
+                  <h2 class="text-lg font-semibold text-gray-800">Chapter 1: Introduction</h2>
+                  <i class="fas fa-chevron-down transform transition-transform"></i>
                 </div>
-                <button id="sidebar-close-btn" class="md:hidden ml-2 p-2 rounded hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-400" aria-label="Close sidebar" style="display:none;">
-                    <svg class="w-6 h-6 text-gray-700" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
-                </button>
-            </div>
-            <div class="flex-grow overflow-y-auto sidebar-scrollbar">
-                <!-- Chapters and Episodes -->
-                <div id="course-outline">
-                    <!-- Chapter 1 -->
-                    <div class="chapter open border-b border-gray-200">
-                        <div class="chapter-header flex justify-between items-center p-4 cursor-pointer hover:bg-gray-50">
-                            <h2 class="text-lg font-semibold text-gray-800">Chapter 1: Introduction</h2>
-                            <i class="fas fa-chevron-down transform transition-transform"></i>
-                        </div>
-                        <div class="chapter-content">
-                            <ul class="episodes-list">
-                                <li class="episode flex items-start p-4 cursor-pointer hover:bg-blue-50 transition-colors duration-200 active" data-content-type="video" data-content-src="https://www.youtube.com/embed/dQw4w9WgXcQ" data-resource-url="#download-link-1" data-notes-id="video-1-notes">
-                                    <span class="text-lg font-bold text-blue-600 mr-4">1</span>
-                                    <div class="flex-grow">
-                                        <h3 class="font-medium text-gray-800">Welcome to the Course: What to Expect</h3>
-                                        <span class="text-sm text-gray-500">5:32</span>
-                                    </div>
-                                    <i class="far fa-bookmark text-gray-400 hover:text-blue-600 ml-4 mt-1"></i>
-                                </li>
-                                <li class="episode flex items-start p-4 cursor-pointer hover:bg-blue-50 transition-colors duration-200" data-content-type="text" data-content-id="episode-2-content" data-resource-url="#download-link-2">
-                                    <span class="text-lg font-bold text-blue-600 mr-4">2</span>
-                                    <div class="flex-grow">
-                                        <h3 class="font-medium text-gray-800">Core Principles of Good Design and User Experience</h3>
-                                        <span class="text-sm text-gray-500">12:15</span>
-                                    </div>
-                                    <i class="far fa-bookmark text-gray-400 hover:text-blue-600 ml-4 mt-1"></i>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                    <!-- Chapter 2 -->
-                    <div class="chapter border-b border-gray-200">
-                        <div class="chapter-header flex justify-between items-center p-4 cursor-pointer hover:bg-gray-50">
-                            <h2 class="text-lg font-semibold text-gray-800">Chapter 2: Advanced Topics</h2>
-                            <i class="fas fa-chevron-up transform transition-transform"></i>
-                        </div>
-                        <div class="chapter-content">
-                             <ul class="episodes-list">
-                                <li class="episode flex items-start p-4 cursor-pointer hover:bg-blue-50 transition-colors duration-200" data-content-type="text" data-content-id="episode-3-content" data-resource-url="#download-link-3">
-                                    <span class="text-lg font-bold text-blue-600 mr-4">1</span>
-                                    <div class="flex-grow">
-                                        <h3 class="font-medium text-gray-800">Advanced Topic 1: Typography</h3>
-                                        <span class="text-sm text-gray-500">8:45</span>
-                                    </div>
-                                    <i class="far fa-bookmark text-gray-400 hover:text-blue-600 ml-4 mt-1"></i>
-                                </li>
-                                <li class="episode flex items-start p-4 cursor-pointer hover:bg-blue-50 transition-colors duration-200" data-content-type="video" data-content-src="https://www.youtube.com/embed/3JZ_D3ELwOQ" data-resource-url="#download-link-5">
-                                    <span class="text-lg font-bold text-blue-600 mr-4">2</span>
-                                    <div class="flex-grow">
-                                        <h3 class="font-medium text-gray-800">Advanced Topic 2: Animation</h3>
-                                        <span class="text-sm text-gray-500">10:20</span>
-                                    </div>
-                                    <i class="far fa-bookmark text-gray-400 hover:text-blue-600 ml-4 mt-1"></i>
-                                </li>
-                                <li class="episode flex items-start p-4 cursor-pointer hover:bg-blue-50 transition-colors duration-200" data-content-type="text" data-content-id="episode-5-content" data-resource-url="#download-link-8">
-                                    <span class="text-lg font-bold text-blue-600 mr-4">3</span>
-                                    <div class="flex-grow">
-                                        <h3 class="font-medium text-gray-800">Advanced Topic 3: Color Theory</h3>
-                                        <span class="text-sm text-gray-500">6:30</span>
-                                    </div>
-                                    <i class="far fa-bookmark text-gray-400 hover:text-blue-600 ml-4 mt-1"></i>
-                                </li>
-                                <li class="episode flex items-start p-4 cursor-pointer hover:bg-blue-50 transition-colors duration-200" data-content-type="video" data-content-src="https://www.youtube.com/embed/5NV6Rdv1a3I" data-resource-url="#download-link-9">
-                                    <span class="text-lg font-bold text-blue-600 mr-4">4</span>
-                                    <div class="flex-grow">
-                                        <h3 class="font-medium text-gray-800">Advanced Topic 4: Responsive Design</h3>
-                                        <span class="text-sm text-gray-500">11:05</span>
-                                    </div>
-                                    <i class="far fa-bookmark text-gray-400 hover:text-blue-600 ml-4 mt-1"></i>
-                                </li>
-                                <li class="episode flex items-start p-4 cursor-pointer hover:bg-blue-50 transition-colors duration-200" data-content-type="text" data-content-id="episode-6-content" data-resource-url="#download-link-10">
-                                    <span class="text-lg font-bold text-blue-600 mr-4">5</span>
-                                    <div class="flex-grow">
-                                        <h3 class="font-medium text-gray-800">Advanced Topic 5: Accessibility</h3>
-                                        <span class="text-sm text-gray-500">9:50</span>
-                                    </div>
-                                    <i class="far fa-bookmark text-gray-400 hover:text-blue-600 ml-4 mt-1"></i>
-                                </li>
-                                <li class="episode flex items-start p-4 cursor-pointer hover:bg-blue-50 transition-colors duration-200" data-content-type="video" data-content-src="https://www.youtube.com/embed/L_jWHffIx5E" data-resource-url="#download-link-11">
-                                    <span class="text-lg font-bold text-blue-600 mr-4">6</span>
-                                    <div class="flex-grow">
-                                        <h3 class="font-medium text-gray-800">Advanced Topic 6: Microinteractions</h3>
-                                        <span class="text-sm text-gray-500">7:40</span>
-                                    </div>
-                                    <i class="far fa-bookmark text-gray-400 hover:text-blue-600 ml-4 mt-1"></i>
-                                </li>
-                                <li class="episode flex items-start p-4 cursor-pointer hover:bg-blue-50 transition-colors duration-200" data-content-type="text" data-content-id="episode-7-content" data-resource-url="#download-link-12">
-                                    <span class="text-lg font-bold text-blue-600 mr-4">7</span>
-                                    <div class="flex-grow">
-                                        <h3 class="font-medium text-gray-800">Advanced Topic 7: Design Systems</h3>
-                                        <span class="text-sm text-gray-500">12:00</span>
-                                    </div>
-                                    <i class="far fa-bookmark text-gray-400 hover:text-blue-600 ml-4 mt-1"></i>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                    <!-- Chapter 3 -->
-                    <div class="chapter border-b border-gray-200">
-                        <div class="chapter-header flex justify-between items-center p-4 cursor-pointer hover:bg-gray-50">
-                            <h2 class="text-lg font-semibold text-gray-800">Chapter 3: UI Patterns</h2>
-                            <i class="fas fa-chevron-up transform transition-transform"></i>
-                        </div>
-                        <div class="chapter-content">
-                             <ul class="episodes-list">
-                                <li class="episode flex items-start p-4 cursor-pointer hover:bg-blue-50 transition-colors duration-200" data-content-type="text" data-content-id="episode-4-content" data-resource-url="#download-link-6">
-                                    <span class="text-lg font-bold text-blue-600 mr-4">1</span>
-                                    <div class="flex-grow">
-                                        <h3 class="font-medium text-gray-800">UI Patterns: Cards and Lists</h3>
-                                        <span class="text-sm text-gray-500">7:30</span>
-                                    </div>
-                                    <i class="far fa-bookmark text-gray-400 hover:text-blue-600 ml-4 mt-1"></i>
-                                </li>
-                                <li class="episode flex items-start p-4 cursor-pointer hover:bg-blue-50 transition-colors duration-200" data-content-type="video" data-content-src="https://www.youtube.com/embed/2vjPBrBU-TM" data-resource-url="#download-link-7">
-                                    <span class="text-lg font-bold text-blue-600 mr-4">2</span>
-                                    <div class="flex-grow">
-                                        <h3 class="font-medium text-gray-800">UI Patterns: Modals and Drawers</h3>
-                                        <span class="text-sm text-gray-500">9:10</span>
-                                    </div>
-                                    <i class="far fa-bookmark text-gray-400 hover:text-blue-600 ml-4 mt-1"></i>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                    <!-- Chapter 4 -->
-                    <div class="chapter">
-                        <div class="chapter-header flex justify-between items-center p-4 cursor-pointer hover:bg-gray-50">
-                            <h2 class="text-lg font-semibold text-gray-800">Chapter 4: Conclusion</h2>
-                            <i class="fas fa-chevron-up transform transition-transform"></i>
-                        </div>
-                        <div class="chapter-content">
-                             <ul class="episodes-list">
-                                <li class="episode flex items-start p-4 cursor-pointer hover:bg-blue-50 transition-colors duration-200" data-content-type="video" data-content-src="https://www.youtube.com/embed/xvFZjo5PgG0" data-resource-url="#download-link-4">
-                                    <span class="text-lg font-bold text-blue-600 mr-4">1</span>
-                                    <div class="flex-grow">
-                                        <h3 class="font-medium text-gray-800">Course Wrap-up and Next Steps</h3>
-                                        <span class="text-sm text-gray-500">3:10</span>
-                                    </div>
-                                    <i class="far fa-bookmark text-gray-400 hover:text-blue-600 ml-4 mt-1"></i>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
+                <div class="chapter-content">
+                  <ul class="episodes-list">
+                    <li class="episode flex items-start p-4 cursor-pointer hover:bg-blue-50 transition-colors duration-200 active" data-content-type="video" data-content-src="https://www.youtube.com/embed/dQw4w9WgXcQ" data-resource-url="#download-link-1" data-notes-id="video-1-notes">
+                      <span class="text-lg font-bold text-blue-600 mr-4">1</span>
+                      <div class="flex-grow">
+                        <h3 class="font-medium text-gray-800">Welcome to the Course: What to Expect</h3>
+                        <span class="text-sm text-gray-500">5:32</span>
+                      </div>
+                      <i class="far fa-bookmark text-gray-400 hover:text-blue-600 ml-4 mt-1"></i>
+                    </li>
+                    <li class="episode flex items-start p-4 cursor-pointer hover:bg-blue-50 transition-colors duration-200" data-content-type="text" data-content-id="episode-2-content" data-resource-url="#download-link-2">
+                      <span class="text-lg font-bold text-blue-600 mr-4">2</span>
+                      <div class="flex-grow">
+                        <h3 class="font-medium text-gray-800">Core Principles of Good Design and User Experience</h3>
+                        <span class="text-sm text-gray-500">12:15</span>
+                      </div>
+                      <i class="far fa-bookmark text-gray-400 hover:text-blue-600 ml-4 mt-1"></i>
+                    </li>
+                  </ul>
                 </div>
-            </div>
-        </aside>
-        <!-- Main Content -->
-        <main class="flex-grow h-full flex flex-col bg-gray-50">
-            <div id="content-display-wrapper" class="flex-grow overflow-y-auto">
-                 <div id="content-display">
-                    <!-- Content will be loaded here -->
-                 </div>
-            </div>
-            <div class="flex flex-col md:flex-row items-center justify-between p-4 border-t border-gray-200 bg-white md:sticky md:bottom-0 z-40">
-                <div class="flex items-center space-x-4 mb-4 md:mb-0">
-                    <button id="prev-btn" class="px-4 py-2 rounded-lg bg-gray-200 hover:bg-gray-300 text-gray-700 font-semibold transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed"><i class="fas fa-arrow-left mr-2"></i>Previous</button>
-                    <button id="next-btn" class="px-4 py-2 rounded-lg bg-blue-600 hover:bg-blue-700 text-white font-semibold transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed">Next<i class="fas fa-arrow-right ml-2"></i></button>
+              </div>
+              <!-- Chapter 2 -->
+              <div class="chapter border-b border-gray-200">
+                <div class="chapter-header flex justify-between items-center p-4 cursor-pointer hover:bg-gray-50">
+                  <h2 class="text-lg font-semibold text-gray-800">Chapter 2: Advanced Topics</h2>
+                  <i class="fas fa-chevron-up transform transition-transform"></i>
                 </div>
-                <div class="flex items-center space-x-2 md:space-x-4">
-                    <button id="complete-btn" class="px-4 py-2 rounded-lg border border-green-500 text-green-600 hover:bg-green-50 font-semibold transition-colors duration-200"><i class="far fa-check-circle mr-2"></i>Mark as Completed</button>
-                    <button id="bookmark-btn" class="px-4 py-2 rounded-lg text-gray-500 hover:text-blue-600 hover:bg-blue-50 transition-colors duration-200"><i class="far fa-bookmark mr-2"></i>Bookmark</button>
-                    <a id="download-btn" href="#" class="px-4 py-2 rounded-lg bg-gray-800 hover:bg-gray-900 text-white font-semibold transition-colors duration-200"><i class="fas fa-download mr-2"></i>Download Resource</a>
+                <div class="chapter-content">
+                  <ul class="episodes-list">
+                    <li class="episode flex items-start p-4 cursor-pointer hover:bg-blue-50 transition-colors duration-200" data-content-type="text" data-content-id="episode-3-content" data-resource-url="#download-link-3">
+                      <span class="text-lg font-bold text-blue-600 mr-4">1</span>
+                      <div class="flex-grow">
+                        <h3 class="font-medium text-gray-800">Advanced Topic 1: Typography</h3>
+                        <span class="text-sm text-gray-500">8:45</span>
+                      </div>
+                      <i class="far fa-bookmark text-gray-400 hover:text-blue-600 ml-4 mt-1"></i>
+                    </li>
+                    <li class="episode flex items-start p-4 cursor-pointer hover:bg-blue-50 transition-colors duration-200" data-content-type="video" data-content-src="https://www.youtube.com/embed/3JZ_D3ELwOQ" data-resource-url="#download-link-5">
+                      <span class="text-lg font-bold text-blue-600 mr-4">2</span>
+                      <div class="flex-grow">
+                        <h3 class="font-medium text-gray-800">Advanced Topic 2: Animation</h3>
+                        <span class="text-sm text-gray-500">10:20</span>
+                      </div>
+                      <i class="far fa-bookmark text-gray-400 hover:text-blue-600 ml-4 mt-1"></i>
+                    </li>
+                    <li class="episode flex items-start p-4 cursor-pointer hover:bg-blue-50 transition-colors duration-200" data-content-type="text" data-content-id="episode-5-content" data-resource-url="#download-link-8">
+                      <span class="text-lg font-bold text-blue-600 mr-4">3</span>
+                      <div class="flex-grow">
+                        <h3 class="font-medium text-gray-800">Advanced Topic 3: Color Theory</h3>
+                        <span class="text-sm text-gray-500">6:30</span>
+                      </div>
+                      <i class="far fa-bookmark text-gray-400 hover:text-blue-600 ml-4 mt-1"></i>
+                    </li>
+                    <li class="episode flex items-start p-4 cursor-pointer hover:bg-blue-50 transition-colors duration-200" data-content-type="video" data-content-src="https://www.youtube.com/embed/5NV6Rdv1a3I" data-resource-url="#download-link-9">
+                      <span class="text-lg font-bold text-blue-600 mr-4">4</span>
+                      <div class="flex-grow">
+                        <h3 class="font-medium text-gray-800">Advanced Topic 4: Responsive Design</h3>
+                        <span class="text-sm text-gray-500">11:05</span>
+                      </div>
+                      <i class="far fa-bookmark text-gray-400 hover:text-blue-600 ml-4 mt-1"></i>
+                    </li>
+                    <li class="episode flex items-start p-4 cursor-pointer hover:bg-blue-50 transition-colors duration-200" data-content-type="text" data-content-id="episode-6-content" data-resource-url="#download-link-10">
+                      <span class="text-lg font-bold text-blue-600 mr-4">5</span>
+                      <div class="flex-grow">
+                        <h3 class="font-medium text-gray-800">Advanced Topic 5: Accessibility</h3>
+                        <span class="text-sm text-gray-500">9:50</span>
+                      </div>
+                      <i class="far fa-bookmark text-gray-400 hover:text-blue-600 ml-4 mt-1"></i>
+                    </li>
+                    <li class="episode flex items-start p-4 cursor-pointer hover:bg-blue-50 transition-colors duration-200" data-content-type="video" data-content-src="https://www.youtube.com/embed/L_jWHffIx5E" data-resource-url="#download-link-11">
+                      <span class="text-lg font-bold text-blue-600 mr-4">6</span>
+                      <div class="flex-grow">
+                        <h3 class="font-medium text-gray-800">Advanced Topic 6: Microinteractions</h3>
+                        <span class="text-sm text-gray-500">7:40</span>
+                      </div>
+                      <i class="far fa-bookmark text-gray-400 hover:text-blue-600 ml-4 mt-1"></i>
+                    </li>
+                    <li class="episode flex items-start p-4 cursor-pointer hover:bg-blue-50 transition-colors duration-200" data-content-type="text" data-content-id="episode-7-content" data-resource-url="#download-link-12">
+                      <span class="text-lg font-bold text-blue-600 mr-4">7</span>
+                      <div class="flex-grow">
+                        <h3 class="font-medium text-gray-800">Advanced Topic 7: Design Systems</h3>
+                        <span class="text-sm text-gray-500">12:00</span>
+                      </div>
+                      <i class="far fa-bookmark text-gray-400 hover:text-blue-600 ml-4 mt-1"></i>
+                    </li>
+                  </ul>
                 </div>
+              </div>
+              <!-- Chapter 3 -->
+              <div class="chapter border-b border-gray-200">
+                <div class="chapter-header flex justify-between items-center p-4 cursor-pointer hover:bg-gray-50">
+                  <h2 class="text-lg font-semibold text-gray-800">Chapter 3: UI Patterns</h2>
+                  <i class="fas fa-chevron-up transform transition-transform"></i>
+                </div>
+                <div class="chapter-content">
+                  <ul class="episodes-list">
+                    <li class="episode flex items-start p-4 cursor-pointer hover:bg-blue-50 transition-colors duration-200" data-content-type="text" data-content-id="episode-4-content" data-resource-url="#download-link-6">
+                      <span class="text-lg font-bold text-blue-600 mr-4">1</span>
+                      <div class="flex-grow">
+                        <h3 class="font-medium text-gray-800">UI Patterns: Cards and Lists</h3>
+                        <span class="text-sm text-gray-500">7:30</span>
+                      </div>
+                      <i class="far fa-bookmark text-gray-400 hover:text-blue-600 ml-4 mt-1"></i>
+                    </li>
+                    <li class="episode flex items-start p-4 cursor-pointer hover:bg-blue-50 transition-colors duration-200" data-content-type="video" data-content-src="https://www.youtube.com/embed/2vjPBrBU-TM" data-resource-url="#download-link-7">
+                      <span class="text-lg font-bold text-blue-600 mr-4">2</span>
+                      <div class="flex-grow">
+                        <h3 class="font-medium text-gray-800">UI Patterns: Modals and Drawers</h3>
+                        <span class="text-sm text-gray-500">9:10</span>
+                      </div>
+                      <i class="far fa-bookmark text-gray-400 hover:text-blue-600 ml-4 mt-1"></i>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+              <!-- Chapter 4 -->
+              <div class="chapter">
+                <div class="chapter-header flex justify-between items-center p-4 cursor-pointer hover:bg-gray-50">
+                  <h2 class="text-lg font-semibold text-gray-800">Chapter 4: Conclusion</h2>
+                  <i class="fas fa-chevron-up transform transition-transform"></i>
+                </div>
+                <div class="chapter-content">
+                  <ul class="episodes-list">
+                    <li class="episode flex items-start p-4 cursor-pointer hover:bg-blue-50 transition-colors duration-200" data-content-type="video" data-content-src="https://www.youtube.com/embed/xvFZjo5PgG0" data-resource-url="#download-link-4">
+                      <span class="text-lg font-bold text-blue-600 mr-4">1</span>
+                      <div class="flex-grow">
+                        <h3 class="font-medium text-gray-800">Course Wrap-up and Next Steps</h3>
+                        <span class="text-sm text-gray-500">3:10</span>
+                      </div>
+                      <i class="far fa-bookmark text-gray-400 hover:text-blue-600 ml-4 mt-1"></i>
+                    </li>
+                  </ul>
+                </div>
+              </div>
             </div>
-        </main>
+          </div>
+        </div>
+      </aside>
+      <!-- Main Content -->
+      <!-- <main class="flex-grow h-full flex flex-col bg-gray-50"> -->
+      <main class="main-content">
+        <div id="content-display-wrapper" class="flex-grow overflow-y-auto">
+          <div id="content-display">
+            <!-- Content will be loaded here -->
+          </div>
+        </div>
+        <div class="flex flex-col md:flex-row items-center justify-between p-4 border-t border-gray-200 bg-white md:sticky md:bottom-0 z-40">
+          <div class="flex items-center space-x-4 mb-4 md:mb-0">
+            <button id="prev-btn" class="px-4 py-2 rounded-lg bg-gray-200 hover:bg-gray-300 text-gray-700 font-semibold transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed"><i class="fas fa-arrow-left mr-2"></i>Previous</button>
+            <button id="next-btn" class="px-4 py-2 rounded-lg bg-blue-600 hover:bg-blue-700 text-white font-semibold transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed">Next<i class="fas fa-arrow-right ml-2"></i></button>
+          </div>
+          <div class="flex items-center space-x-2 md:space-x-4">
+            <button id="complete-btn" class="px-4 py-2 rounded-lg border border-green-500 text-green-600 hover:bg-green-50 font-semibold transition-colors duration-200"><i class="far fa-check-circle mr-2"></i>Mark as Completed</button>
+            <button id="bookmark-btn" class="px-4 py-2 rounded-lg text-gray-500 hover:text-blue-600 hover:bg-blue-50 transition-colors duration-200"><i class="far fa-bookmark mr-2"></i>Bookmark</button>
+            <a id="download-btn" href="#" class="px-4 py-2 rounded-lg bg-gray-800 hover:bg-gray-900 text-white font-semibold transition-colors duration-200"><i class="fas fa-download mr-2"></i>Download Resource</a>
+          </div>
+        </div>
+      </main>
     </div>
 
     <!-- Templates for rich text content -->
     <template id="episode-2-content">
-        <div class="rich-content p-4 md:p-8">
-            <h2>Core Principles of Good Design</h2>
-            <p>This episode covers the fundamental principles of design. We will explore concepts like balance, contrast, hierarchy, and repetition. Understanding these principles is crucial for creating visually appealing and effective designs.</p>
-            <img src="https://placehold.co/800x400/e2e8f0/475569?text=Design+Principle+Diagram" alt="Diagram of design principles">
-            <p>For more in-depth reading, check out <a href="#" target="_blank">this article on Smashing Magazine</a>. It provides excellent examples.</p>
-            <p>Here is an example of how you might structure your HTML for a card component:</p>
-            <pre><code class="language-html">&lt;div class="card"&gt;
+      <div class="rich-content p-4 md:p-8">
+        <h2>Core Principles of Good Design</h2>
+        <p>This episode covers the fundamental principles of design. We will explore concepts like balance, contrast, hierarchy, and repetition. Understanding these principles is crucial for creating visually appealing and effective designs.</p>
+        <img src="https://placehold.co/800x400/e2e8f0/475569?text=Design+Principle+Diagram" alt="Diagram of design principles" />
+        <p>For more in-depth reading, check out <a href="#" target="_blank">this article on Smashing Magazine</a>. It provides excellent examples.</p>
+        <p>Here is an example of how you might structure your HTML for a card component:</p>
+        <pre><code class="language-html">&lt;div class="card"&gt;
   &lt;img src="image.jpg" alt="Card Image"&gt;
   &lt;div class="card-content"&gt;
     &lt;h3&gt;Card Title&lt;/h3&gt;
     &lt;p&gt;Some descriptive text about the card.&lt;/p&gt;
   &lt;/div&gt;
 &lt;/div&gt;</code></pre>
-        </div>
+      </div>
     </template>
     <template id="episode-3-content">
-         <div class="rich-content p-4 md:p-8">
-            <h2>Advanced Topic 1: Typography</h2>
-            <p>This is the text content for Advanced Topic 1. We will dive deep into typography, exploring font pairings, line height, and kerning to create beautiful and readable text layouts.</p>
-        </div>
+      <div class="rich-content p-4 md:p-8">
+        <h2>Advanced Topic 1: Typography</h2>
+        <p>This is the text content for Advanced Topic 1. We will dive deep into typography, exploring font pairings, line height, and kerning to create beautiful and readable text layouts.</p>
+      </div>
     </template>
     <template id="episode-4-content">
-         <div class="rich-content p-4 md:p-8">
-            <h2>UI Patterns: Cards and Lists</h2>
-            <p>This episode covers common UI patterns such as cards and lists, and how to use them effectively in your designs.</p>
-        </div>
+      <div class="rich-content p-4 md:p-8">
+        <h2>UI Patterns: Cards and Lists</h2>
+        <p>This episode covers common UI patterns such as cards and lists, and how to use them effectively in your designs.</p>
+      </div>
     </template>
     <template id="episode-5-content">
-    <div class="rich-content p-4 md:p-8">
+      <div class="rich-content p-4 md:p-8">
         <h2>Advanced Topic 3: Color Theory</h2>
         <p>This episode explores the fundamentals of color theory and how to use color effectively in your designs.</p>
-    </div>
-</template>
-<template id="episode-6-content">
-    <div class="rich-content p-4 md:p-8">
+      </div>
+    </template>
+    <template id="episode-6-content">
+      <div class="rich-content p-4 md:p-8">
         <h2>Advanced Topic 5: Accessibility</h2>
         <p>This episode covers accessibility best practices to ensure your designs are usable by everyone.</p>
-    </div>
-</template>
-<template id="episode-7-content">
-    <div class="rich-content p-4 md:p-8">
+      </div>
+    </template>
+    <template id="episode-7-content">
+      <div class="rich-content p-4 md:p-8">
         <h2>Advanced Topic 7: Design Systems</h2>
         <p>This episode introduces design systems and how they help maintain consistency across products.</p>
-    </div>
-</template>
+      </div>
+    </template>
     <!-- Example video notes template -->
     <template id="video-1-notes">
-        <div class="rich-content">
-            <h3 class="text-xl font-semibold mb-2">Video Notes & Resources</h3>
-            <p class="mb-2">This video introduces the course and what you can expect to learn. Here are some key points and resources:</p>
-            <ul class="list-disc pl-6 mb-4">
-                <li>Understand the course structure and objectives.</li>
-                <li>Meet your instructor and learn about their background.</li>
-                <li>Overview of the tools and resources provided.</li>
-            </ul>
-            <img src="https://placehold.co/600x250/bae6fd/0c4a6e?text=Sample+Course+Diagram" alt="Sample Course Diagram" class="my-6 rounded-lg shadow">
-            <h4 class="font-semibold mt-4 mb-1">Sample Code</h4>
-            <pre><code class="language-javascript">// Example JavaScript code for a greeting
+      <div class="rich-content">
+        <h3 class="text-xl font-semibold mb-2">Video Notes & Resources</h3>
+        <p class="mb-2">This video introduces the course and what you can expect to learn. Here are some key points and resources:</p>
+        <ul class="list-disc pl-6 mb-4">
+          <li>Understand the course structure and objectives.</li>
+          <li>Meet your instructor and learn about their background.</li>
+          <li>Overview of the tools and resources provided.</li>
+        </ul>
+        <img src="https://placehold.co/600x250/bae6fd/0c4a6e?text=Sample+Course+Diagram" alt="Sample Course Diagram" class="my-6 rounded-lg shadow" />
+        <h4 class="font-semibold mt-4 mb-1">Sample Code</h4>
+        <pre><code class="language-javascript">// Example JavaScript code for a greeting
 function greet(name) {
     return `Hello, ${name}!`;
 }
 console.log(greet('World'));
 </code></pre>
-            <h4 class="font-semibold mt-4 mb-1">Downloadable Materials</h4>
-            <ul class="list-disc pl-6 mb-4">
-                <li><a href="#" class="text-blue-600 underline">Course Slides (PDF)</a></li>
-                <li><a href="#" class="text-blue-600 underline">Sample Project Files</a></li>
-            </ul>
-            <h4 class="font-semibold mt-4 mb-1">Further Reading</h4>
-            <ul class="list-disc pl-6">
-                <li><a href="https://developer.mozilla.org/" target="_blank" class="text-blue-600 underline">MDN Web Docs</a></li>
-                <li><a href="https://www.smashingmagazine.com/" target="_blank" class="text-blue-600 underline">Smashing Magazine</a></li>
-            </ul>
-        </div>
+        <h4 class="font-semibold mt-4 mb-1">Downloadable Materials</h4>
+        <ul class="list-disc pl-6 mb-4">
+          <li><a href="#" class="text-blue-600 underline">Course Slides (PDF)</a></li>
+          <li><a href="#" class="text-blue-600 underline">Sample Project Files</a></li>
+        </ul>
+        <h4 class="font-semibold mt-4 mb-1">Further Reading</h4>
+        <ul class="list-disc pl-6">
+          <li><a href="https://developer.mozilla.org/" target="_blank" class="text-blue-600 underline">MDN Web Docs</a></li>
+          <li><a href="https://www.smashingmagazine.com/" target="_blank" class="text-blue-600 underline">Smashing Magazine</a></li>
+        </ul>
+      </div>
     </template>
     <script src="app.js" defer></script>
-</body>
+  </body>
 </html>
